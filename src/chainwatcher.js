@@ -51,8 +51,8 @@ var TransactionBox = React.createClass({
     var outer = this;
     conn.onmessage = function(ev) {
       var data = JSON.parse(ev.data);
-      this.state.data.push(data);
-      outer.setState({data: this.state.data});
+      outer.state.data.push(data);
+      outer.setState({data: outer.state.data});
     };
     conn.onclose = function(ev) {
       var conn = new WebSocket('wss://ws.chain.com/v2/notifications');
