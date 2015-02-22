@@ -11,7 +11,7 @@ var RingBuffer = function(length) {
       pointer = (pointer + 1) % length;
     },
     map: function(callback) {
-      buffer.map(callback);
+      return buffer.map(callback);
     }
   };
 };
