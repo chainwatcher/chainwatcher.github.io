@@ -9,27 +9,27 @@ var Transaction = React.createClass({
 });
 
 var TransactionList = React.createClass({
-  getHash: function() {
-    var payload = this.props.data.payload;
-    if (payload !== undefined && payload.type === 'new-transaction') {
-      return payload.transaction.hash;
-    } else {
+  getHash: function(transaction) {
+    if (transaction === undefined) {
       return '';
     }
-    //$('#thashlist').append('<li>' + thash + '</li>');
+    var payload = transaction.payload;
+    if (payload === undefined || payload.type !== 'new-transaction') {
+      return '';
+    }
+    return payload.transaction.hash;
   },
   render: function() {
-    //var transactionNodes = this.props.data.map(function (transaction) {
-    //  return (
-    //    <Transaction>
-    //      {transaction.text}
-    //    </Transaction>
-    //  );
-    //});
-    var hash = this.getHash();
+    var transactionNodes = this.props.data.map(function (transaction) {
+      return (
+        <Transaction>
+          {this.getHash(transaction)}
+        </Transaction>
+      );
+    });
     return (
       <div className='transactionList'>
-        {hash}
+        {transactionNodes}
       </div>
     );
   }
@@ -37,7 +37,7 @@ var TransactionList = React.createClass({
 
 var TransactionBox = React.createClass({
   getInitialState: function() {
-    return {data: {})};
+    return {data: new RingBuffer(10)};
   },
   componentDidMount: function() {
     if (window.MozWebSocket) {
@@ -51,7 +51,8 @@ var TransactionBox = React.createClass({
     var outer = this;
     conn.onmessage = function(ev) {
       var data = JSON.parse(ev.data);
-      outer.setState({data: data});
+      this.state.data.push(data);
+      outer.setState({data: this.state.data});
     };
     conn.onclose = function(ev) {
       var conn = new WebSocket('wss://ws.chain.com/v2/notifications');
