@@ -14,7 +14,7 @@ var RingBuffer = function(length) {
       var result = new RingBuffer(length);
       var i = 0;
       do {
-        result.push(callback.call(buffer.get(i));
+        result.push(callback.call(buffer.get(i)));
         i++;
       } while (i < length);
       return result;
