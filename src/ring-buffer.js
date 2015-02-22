@@ -12,7 +12,7 @@ var RingBuffer = function(length) {
     },
     map: function(callback) {
       var result = [];
-      for (var i = 0; i < length; i++) {
+      for (var i = 0; i < buffer.length; i++) {
         result[i] = callback.call(this.get(i));
       }
       return result;
