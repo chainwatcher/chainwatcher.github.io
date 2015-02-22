@@ -21,10 +21,11 @@ var TransactionList = React.createClass({
   },
   render: function() {
     var outer = this;
-    var transactionNodes = this.props.data.map(function (transaction) {
+    var transactionNodes = this.props.data.map(function(transaction) {
+      var hash = outer.getHash(transaction);
       return (
         <Transaction>
-          {outer.getHash(transaction)}
+          {hash}
         </Transaction>
       );
     });
