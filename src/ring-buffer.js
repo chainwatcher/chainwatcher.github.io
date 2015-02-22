@@ -11,9 +11,9 @@ var RingBuffer = function(length) {
       pointer = (pointer + 1) % length;
     },
     map: function(callback) {
-      var result = new RingBuffer(length);
+      var result = [];
       for (var i = 0; i < length; i++) {
-        result.push(callback.call(this.get(i)));
+        result[i] = callback.call(this.get(i));
       }
       return result;
     }
