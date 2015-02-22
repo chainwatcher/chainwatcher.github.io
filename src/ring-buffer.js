@@ -9,6 +9,8 @@ var RingBuffer = function(length) {
     push: function(item) {
       buffer[pointer] = item;
       pointer = (pointer + 1) % length;
-    }
+    },
+    map: function(callback) {
+      buffer.map(callback);
   };
 };
