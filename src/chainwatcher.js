@@ -37,7 +37,7 @@ var TransactionList = React.createClass({
 
 var TransactionBox = React.createClass({
   getInitialState: function() {
-    return {data: JSON.parse('{}')};
+    return {data: {})};
   },
   componentDidMount: function() {
     if (window.MozWebSocket) {
