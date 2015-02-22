@@ -12,5 +12,6 @@ var RingBuffer = function(length) {
     },
     map: function(callback) {
       buffer.map(callback);
+    }
   };
 };
