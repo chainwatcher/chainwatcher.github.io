@@ -1,3 +1,5 @@
+/** @jsx React.DOM */
+
 var Transaction = React.createClass({
   render: function() {
     return (
@@ -11,11 +13,11 @@ var Transaction = React.createClass({
 var TransactionList = React.createClass({
   getHash: function(transaction) {
     if (transaction === undefined) {
-      return '';
+      return 'undefined';
     }
     var payload = transaction.payload;
     if (payload === undefined || payload.type !== 'new-transaction') {
-      return '';
+      return 'xxxxxxx';
     }
     return payload.transaction.hash;
   },
