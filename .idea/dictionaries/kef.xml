@@ -4,6 +4,9 @@
       <w>chainwatcher</w>
       <w>keeffe</w>
       <w>noninfringement</w>
+      <w>onclose</w>
+      <w>onmessage</w>
+      <w>onopen</w>
     </words>
   </dictionary>
 </component>
