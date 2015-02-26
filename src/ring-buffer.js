@@ -1,21 +1,37 @@
 var RingBuffer = function(length) {
-  var pointer = 0;
+  if (length <= 0) {
+    throw new Error('Length of RingBuffer (' + length + ') must be positive.')
+  }
+
+  var next = 0;
   var buffer = [];
 
+  function key(index) {
+    return (length + index) % length;
+  }
+
   return {
-    get: function(key) {
-      return buffer[(pointer + key) % length];
-    },
     push: function(item) {
-      buffer[pointer] = item;
-      pointer = (pointer + 1) % length;
+      buffer[next] = item;
+      next = key(next + 1);
     },
     map: function(callback) {
       var result = [];
-      for (var i = 0; i < buffer.length; i++) {
-        result[i] = callback.call(this.get(i));
-      }
+      var resultIndex = 0;
+      var limit = key(next - 1);
+      var bufferIndex = limit;
+      do {
+        if (buffer[bufferIndex] !== undefined) {
+          result[resultIndex] = callback.call(null, buffer[bufferIndex]);
+          resultIndex++;
+        }
+        bufferIndex = key(bufferIndex - 1);
+      } while (bufferIndex !== limit);
       return result;
     }
   };
 };
+
+if (typeof module === 'object') {
+  module.exports = RingBuffer;
+}
