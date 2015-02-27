@@ -17,13 +17,11 @@ var RingBuffer = function(length) {
     },
     map: function(callback) {
       var result = [];
-      var resultIndex = 0;
       var limit = key(next - 1);
       var bufferIndex = limit;
       do {
         if (buffer[bufferIndex] !== undefined) {
-          result[resultIndex] = callback.call(null, buffer[bufferIndex]);
-          resultIndex++;
+          result.push(callback.call(null, buffer[bufferIndex]));
         }
         bufferIndex = key(bufferIndex - 1);
       } while (bufferIndex !== limit);
