@@ -11,20 +11,9 @@ var Transaction = React.createClass({
 });
 
 var TransactionList = React.createClass({
-  getHash: function(transaction) {
-    if (transaction === undefined) {
-      return 'undefined';
-    }
-    var payload = transaction.payload;
-    if (payload === undefined || payload.type !== 'new-transaction') {
-      return 'xxxxxxx';
-    }
-    return payload.transaction.hash;
-  },
   render: function() {
-    var outer = this;
     var transactionNodes = this.props.data.map(function(transaction) {
-      var hash = outer.getHash(transaction);
+      var hash = transaction.hash;
       return (
         <Transaction>
           {hash}
@@ -55,8 +44,11 @@ var TransactionBox = React.createClass({
     var outer = this;
     conn.onmessage = function(ev) {
       var data = JSON.parse(ev.data);
-      outer.state.data.push(data);
-      outer.setState({data: outer.state.data});
+      var payload = data.payload;
+      if (payload !== undefined && payload.type === 'new-transaction') {
+        outer.state.data.push(payload.transaction);
+        outer.setState({data: outer.state.data});
+      }
     };
     conn.onclose = function(ev) {
       var conn = new WebSocket('wss://ws.chain.com/v2/notifications');
