@@ -1,5 +1,7 @@
 /** @jsx React.DOM */
 
+var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
+
 var Transaction = React.createClass({
   render: function() {
     return (
@@ -15,14 +17,16 @@ var TransactionList = React.createClass({
     var transactionNodes = this.props.data.map(function(transaction) {
       var hash = transaction.hash;
       return (
-        <Transaction>
+        <Transaction key={hash}>
           {hash}
         </Transaction>
       );
     });
     return (
       <div className='transactionList'>
-        {transactionNodes}
+        <ReactCSSTransitionGroup transitionName="example">
+          {transactionNodes}
+        </ReactCSSTransitionGroup>
       </div>
     );
   }
