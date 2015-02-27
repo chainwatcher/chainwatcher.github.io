@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 var Transaction = React.createClass({
